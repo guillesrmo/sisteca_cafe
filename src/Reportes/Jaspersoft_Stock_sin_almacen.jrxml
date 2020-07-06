@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f71ba40e-d7d1-4555-a59c-d16e159791c0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\pro\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PRODUCTO1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PRODUCTO2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="almacen_nombre" class="java.lang.String"/>
+	<parameter name="almacen_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select producto_id,producto_cod,producto_descrip, ISNULL((SELECT
+     sum(det_comp.det_com_pro_cantidad *
+     present.present_cantidad)
+FROM
+     producto_presentacion present INNER JOIN producto produt ON present.present_cod_producto = produt.producto_id
+     INNER JOIN detalle_compra_producto det_comp ON present.present_id = det_comp.det_com_pro_id_producto
+	 inner join compra compr on compr.compra_id=det_comp.det_com_pro_id_compra
+WHERE
+     produt.producto_id =producto.producto_id ),0)as entrada,isNULL(( SELECT sum(det_ven.det_ven_pro_cantidad*
+     present.present_cantidad ) AS total
+	 FROM
+     producto_presentacion present INNER JOIN producto produt ON present.present_cod_producto = produt.producto_id
+     INNER JOIN detalle_venta_producto det_ven ON present.present_id = det_ven.det_ven_pro_id_producto
+	 INNER JOIN venta vent on vent.venta_id=det_ven.det_ven_pro_id_venta
+	 WHERE
+     produt.producto_id =producto.producto_id),0) as salida,
+	 ( ISNULL((SELECT
+     sum(det_comp.det_com_pro_cantidad *
+     present.present_cantidad)
+FROM
+     producto_presentacion present INNER JOIN producto produt ON present.present_cod_producto = produt.producto_id
+     INNER JOIN detalle_compra_producto det_comp ON present.present_id = det_comp.det_com_pro_id_producto
+	 inner join compra compr on compr.compra_id=det_comp.det_com_pro_id_compra
+WHERE
+     produt.producto_id =producto.producto_id ) ,0)-isNULL(( SELECT sum(det_ven.det_ven_pro_cantidad*
+     present.present_cantidad ) AS total
+	 FROM
+     producto_presentacion present INNER JOIN producto produt ON present.present_cod_producto = produt.producto_id
+     INNER JOIN detalle_venta_producto det_ven ON present.present_id = det_ven.det_ven_pro_id_producto
+	 INNER JOIN venta vent on vent.venta_id=det_ven.det_ven_pro_id_venta
+	 WHERE
+     produt.producto_id =producto.producto_id),0)  ) as total from producto
+	 where producto.producto_id BETWEEN $P{PRODUCTO1} and $P{PRODUCTO2}
+	 order by producto.producto_id asc]]>
+	</queryString>
+	<field name="producto_id" class="java.lang.Integer"/>
+	<field name="producto_cod" class="java.lang.String"/>
+	<field name="producto_descrip" class="java.lang.String"/>
+	<field name="entrada" class="java.math.BigDecimal"/>
+	<field name="salida" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<group name="producto">
+		<groupExpression><![CDATA[$F{producto_id}]]></groupExpression>
+		<groupHeader>
+			<band height="3">
+				<line>
+					<reportElement x="4" y="2" width="802" height="1" uuid="0745931b-a524-429d-9d80-3f4e62c19dcf"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="3"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="33" uuid="6e5a7be0-15c3-4748-8f38-835957b5dfbf"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a0f795be-2a06-47de-85a6-450cad1cdded"/>
+				<text><![CDATA[ALMACEN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="320" height="20" uuid="b1da448d-2e98-471b-bef7-a808de989ea9"/>
+				<textFieldExpression><![CDATA[$P{almacen_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="702" y="42" width="100" height="20" uuid="e56ed6be-a3db-4b5e-9737-4d2f579934e9"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="617" y="42" width="80" height="20" uuid="9eeaea6a-e2c3-4a92-abbb-f0969298aa9f"/>
+				<text><![CDATA[SALIDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="532" y="42" width="80" height="20" uuid="ac673db7-f2e4-40de-8f5c-d5b3749d29f6"/>
+				<text><![CDATA[ENTRADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="42" width="100" height="20" uuid="d01b2351-62f7-43d7-9f59-3e9b759cc2b0"/>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="42" width="100" height="20" uuid="6870a2b8-8cd5-4de0-bfd9-7ff350a2af54"/>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="42" width="63" height="20" uuid="89bca182-6d55-4ebb-9650-9bc3c0c555a9"/>
+				<text><![CDATA[CODIGO_ID]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="59" height="20" uuid="94790ff1-0c56-42cf-8376-ee9299e7f370"/>
+				<textFieldExpression><![CDATA[$F{producto_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="0" width="100" height="20" uuid="274039a5-5264-4c11-ad77-ca5a0ac0cb5e"/>
+				<textFieldExpression><![CDATA[$F{producto_cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="0" width="364" height="20" uuid="1ad5706b-1316-4671-8e15-714ce11946b5"/>
+				<textFieldExpression><![CDATA[$F{producto_descrip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="532" y="3" width="80" height="20" uuid="70b7e758-9f54-4cda-a18d-82e965c5b68a"/>
+				<textFieldExpression><![CDATA[$F{entrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="617" y="3" width="80" height="20" uuid="0f074821-4fb4-4550-afa8-b031051599a7"/>
+				<textFieldExpression><![CDATA[$F{salida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" uuid="5a51adcc-9e83-4427-b18a-ea386bacb6ef"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="658" y="1" width="80" height="20" uuid="6149e85e-377c-4f33-b6f0-571958d4ac4e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="762" y="1" width="40" height="20" uuid="9b0023b3-a194-4cdb-94ae-65488ca0de50"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

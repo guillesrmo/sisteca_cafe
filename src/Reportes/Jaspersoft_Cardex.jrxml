@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f71ba40e-d7d1-4555-a59c-d16e159791c0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="compra" uuid="e84595a7-5eae-4f0f-a279-c3cb614eb337">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     det_comp."det_com_pro_cantidad" AS det_comp_det_com_pro_cantidad,
+     present."present_cantidad" AS present_present_cantidad,
+     produt."producto_id" AS produt_producto_id
+FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_compra_producto" det_comp ON present."present_id" = det_comp."det_com_pro_id_producto"
+WHERE
+     produt.producto_id BETWEEN 1 and 5]]>
+		</queryString>
+		<field name="det_comp_det_com_pro_cantidad" class="java.math.BigDecimal"/>
+		<field name="present_present_cantidad" class="java.math.BigDecimal"/>
+		<field name="produt_producto_id" class="java.lang.Integer"/>
+		<group name="produt_producto_id">
+			<groupExpression><![CDATA[$F{produt_producto_id}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\pro\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PRODUCTO1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PRODUCTO2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA1" class="java.lang.String"/>
+	<parameter name="FECHA2" class="java.lang.String"/>
+	<parameter name="almacen_nombre" class="java.lang.String"/>
+	<parameter name="almacen_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    * FROM
+     "producto" producto WHERE  producto_id BETWEEN $P{PRODUCTO1} AND $P{PRODUCTO2}]]>
+	</queryString>
+	<field name="producto_id" class="java.lang.Integer"/>
+	<field name="producto_cod" class="java.lang.String"/>
+	<field name="producto_descrip" class="java.lang.String"/>
+	<field name="producto_descripcort" class="java.lang.String"/>
+	<field name="producto_clasifi" class="java.lang.Integer"/>
+	<field name="producto_moneda" class="java.lang.Integer"/>
+	<field name="producto_familia" class="java.lang.Integer"/>
+	<field name="producto_medida" class="java.lang.Integer"/>
+	<field name="producto_observacion" class="java.lang.String"/>
+	<field name="producto_tipo_afect" class="java.lang.Integer"/>
+	<field name="producto_estado" class="java.lang.String"/>
+	<field name="producto_valor" class="java.math.BigDecimal"/>
+	<group name="producto">
+		<groupExpression><![CDATA[$F{producto_id}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<line>
+					<reportElement x="3" y="23" width="802" height="1" uuid="fc78cfbc-0cc2-477c-978e-1a01544cb686"/>
+				</line>
+				<textField>
+					<reportElement x="12" y="2" width="100" height="20" uuid="41ff3196-c6e9-4f4a-a89c-5a4a3a6b287a"/>
+					<textFieldExpression><![CDATA[$F{producto_id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="124" y="2" width="171" height="20" uuid="2dcf2c5e-7859-4f30-a142-cf25183ddd80"/>
+					<textFieldExpression><![CDATA[$F{producto_descrip}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="702" y="3" width="100" height="20" uuid="e56ed6be-a3db-4b5e-9737-4d2f579934e9"/>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<line>
+					<reportElement x="4" y="2" width="802" height="1" uuid="0745931b-a524-429d-9d80-3f4e62c19dcf"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="27">
+				<subreport>
+					<reportElement x="0" y="0" width="798" height="23" uuid="9d749c45-693c-468b-a71e-7e7ac3488c15"/>
+					<subreportParameter name="id_producto">
+						<subreportParameterExpression><![CDATA[$F{producto_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="almacen">
+						<subreportParameterExpression><![CDATA[$P{almacen_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="FECHA2">
+						<subreportParameterExpression><![CDATA[$P{FECHA2}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="FECHA1">
+						<subreportParameterExpression><![CDATA[$P{FECHA1}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["C:\\Users\\memo\\Documents\\NetBeansProjects\\ERP_SC_Almacen\\src\\Reportes\\Jaspersoft_Cardex_entra_salida_total.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="33" uuid="6e5a7be0-15c3-4748-8f38-835957b5dfbf"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARDEX FISICO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a0f795be-2a06-47de-85a6-450cad1cdded"/>
+				<text><![CDATA[ALMACEN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="b28ac450-2501-4227-bbf5-0f6aca999182"/>
+				<text><![CDATA[FECHA FINAL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="100" height="20" uuid="9b84d3d8-53ce-40c3-901e-e0dcee811969"/>
+				<text><![CDATA[FECHA INICIO :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="20" width="100" height="20" uuid="d71e1718-7b85-4764-8973-53931315f8e8"/>
+				<textFieldExpression><![CDATA[$P{FECHA1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="42" width="100" height="20" uuid="76ce6a92-a3dc-43c6-800a-68e721892435"/>
+				<textFieldExpression><![CDATA[$P{FECHA2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="320" height="20" uuid="b1da448d-2e98-471b-bef7-a808de989ea9"/>
+				<textFieldExpression><![CDATA[$P{almacen_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<subreport>
+				<reportElement x="381" y="3" width="335" height="31" uuid="d490698b-1fa2-4baf-bc4d-6953a32cc292"/>
+				<subreportParameter name="id_producto">
+					<subreportParameterExpression><![CDATA[$F{producto_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="almacen">
+					<subreportParameterExpression><![CDATA[$P{almacen_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FECHA2">
+					<subreportParameterExpression><![CDATA[$P{FECHA2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FECHA1">
+					<subreportParameterExpression><![CDATA[$P{FECHA1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\memo\\Documents\\NetBeansProjects\\ERP_SC_Almacen\\src\\Reportes\\Jaspersoft_Cardex_Venta.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="4" y="3" width="334" height="31" uuid="342970e9-ba5c-4b93-a8f9-a3bcd4017eaf"/>
+				<subreportParameter name="id_producto">
+					<subreportParameterExpression><![CDATA[$F{producto_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="almacen">
+					<subreportParameterExpression><![CDATA[$P{almacen_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FECHA2">
+					<subreportParameterExpression><![CDATA[$P{FECHA2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FECHA1">
+					<subreportParameterExpression><![CDATA[$P{FECHA1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\memo\\Documents\\NetBeansProjects\\ERP_SC_Almacen\\src\\Reportes\\Jaspersoft_Cardex_Compra.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="1" width="802" height="1" uuid="ac815a0b-971c-4477-b355-a16d2acb6ad5"/>
+			</line>
+			<textField>
+				<reportElement x="658" y="1" width="80" height="20" uuid="6149e85e-377c-4f33-b6f0-571958d4ac4e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="762" y="1" width="40" height="20" uuid="9b0023b3-a194-4cdb-94ae-65488ca0de50"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex_entra_salida_total" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3cb4a058-bf20-4692-85e4-9291328a587f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_producto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="almacen" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select ISNULL((SELECT
+     sum(det_comp."det_com_pro_cantidad" *
+     present."present_cantidad")
+FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_compra_producto" det_comp ON present."present_id" = det_comp."det_com_pro_id_producto"
+	 inner join compra compr on compr.compra_id=det_comp.det_com_pro_id_compra
+WHERE
+     det_comp.det_com_pro_cod_lote =$P{id_producto} and compr.compra_fecha_emis BETWEEN $P{FECHA1} AND $P{FECHA2} and  compr.compra_almacen=$P{almacen}),0)as entrada,isNULL(( SELECT sum(det_ven."det_ven_pro_cantidad"*
+     present."present_cantidad" ) AS total
+	 FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_venta_producto" det_ven ON present."present_id" = det_ven."det_ven_pro_id_producto"
+	 INNER JOIN venta vent on vent.venta_id=det_ven.det_ven_pro_id_venta
+	 WHERE
+     det_ven.det_ven_pro_cod_lote =$P{id_producto} AND  vent.venta_fecha_emision BETWEEN $P{FECHA1} AND $P{FECHA2}  and  vent.venta_empresa=$P{almacen}),0) as salida,
+	 ( ISNULL((SELECT
+     sum(det_comp."det_com_pro_cantidad" *
+     present."present_cantidad")
+FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_compra_producto" det_comp ON present."present_id" = det_comp."det_com_pro_id_producto"
+	 inner join compra compr on compr.compra_id=det_comp.det_com_pro_id_compra
+WHERE
+     det_comp.det_com_pro_cod_lote =$P{id_producto} and compr.compra_fecha_emis BETWEEN $P{FECHA1} AND $P{FECHA2} and  compr.compra_almacen=$P{almacen}) ,0)-isNULL(( SELECT sum(det_ven."det_ven_pro_cantidad"*
+     present."present_cantidad" ) AS total
+	 FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_venta_producto" det_ven ON present."present_id" = det_ven."det_ven_pro_id_producto"
+	 INNER JOIN venta vent on vent.venta_id=det_ven.det_ven_pro_id_venta
+	 WHERE
+     det_ven.det_ven_pro_cod_lote =$P{id_producto} AND  vent.venta_fecha_emision BETWEEN $P{FECHA1} AND  $P{FECHA2} and  vent.venta_empresa=$P{almacen}),0)  ) as total]]>
+	</queryString>
+	<field name="entrada" class="java.math.BigDecimal"/>
+	<field name="salida" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<group name="producto_producto_id">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement x="-1" y="2" width="801" height="1" uuid="6d556439-c3cd-4a87-a691-04e8555d3f13"/>
+			</line>
+			<textField pattern="###0.0000;-###0.0000">
+				<reportElement x="190" y="2" width="100" height="20" uuid="b294251a-bb98-4a48-a7a3-4ef70cce82d8"/>
+				<textFieldExpression><![CDATA[$F{entrada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000;-###0.0000">
+				<reportElement x="701" y="2" width="100" height="20" uuid="3c8b5e86-b296-44c7-a043-a8de384d14be"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000;-###0.0000">
+				<reportElement x="596" y="2" width="100" height="20" uuid="ee31343c-c43f-4024-bd16-16b2578a0368"/>
+				<textFieldExpression><![CDATA[$F{salida}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

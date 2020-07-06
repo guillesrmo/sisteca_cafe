@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex_Guia_subreport" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3e5fd598-81d2-474c-a65f-23d7352992d4">
+	<property name="ireport.zoom" value="3.4522712143931042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_venta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select vent.venta_id,
+pro_p.present_id,pro_p.present_cod_barra,pro.producto_descrip,det_venta.det_ven_pro_cantidad,
+pro_p.present_peso,ti_uni.unidad_cod,det_venta.det_ven_pro_fecha,(SELECT fa.familia_descrip  FROM producto pro
+inner join familia fa
+on fa.familia_id=pro.producto_familia
+inner join producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id where pre.present_id=pro_p.present_id) AS MARCA,det_venta.det_ven_pro_cod_lote,pro.producto_cantidad,(det_venta.det_ven_pro_cantidad*pro_p.present_cantidad*pro_p.present_peso) AS TOTAL,
+((CONVERT(int,det_venta.det_ven_pro_cantidad))-(CONVERT(int,det_venta.det_ven_pro_cantidad)%CONVERT(int,pro.producto_cantidad)))/CONVERT(int,pro.producto_cantidad)as embalaje,
+((CONVERT(int,det_venta.det_ven_pro_cantidad)%CONVERT(int,pro.producto_cantidad)))as unidad
+from detalle_venta_producto det_venta
+inner join venta vent
+on vent.venta_id=det_venta.det_ven_pro_id_venta
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_venta.det_ven_pro_id_producto
+inner join producto pro
+on pro.producto_id=pro_p.present_cod_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_venta.det_ven_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_venta.det_ven_pro_id_venta=$P{id_venta}
+order by det_venta.det_ven_pro_id asc]]>
+	</queryString>
+	<field name="venta_id" class="java.lang.Integer"/>
+	<field name="present_id" class="java.lang.Integer"/>
+	<field name="present_cod_barra" class="java.lang.String"/>
+	<field name="producto_descrip" class="java.lang.String"/>
+	<field name="det_ven_pro_cantidad" class="java.math.BigDecimal"/>
+	<field name="present_peso" class="java.math.BigDecimal"/>
+	<field name="unidad_cod" class="java.lang.String"/>
+	<field name="det_ven_pro_fecha" class="java.lang.String"/>
+	<field name="MARCA" class="java.lang.String"/>
+	<field name="det_ven_pro_cod_lote" class="java.lang.String"/>
+	<field name="producto_cantidad" class="java.lang.String"/>
+	<field name="TOTAL" class="java.math.BigDecimal"/>
+	<field name="embalaje" class="java.lang.Integer"/>
+	<field name="unidad" class="java.lang.Integer"/>
+	<group name="venta_id">
+		<groupExpression><![CDATA[$F{venta_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="369" y="0" width="44" height="20" uuid="2b9b21b2-b64d-4718-b520-d095a151322f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="168" height="20" uuid="abc628c9-7959-4dde-9ef0-8daaa76c7092"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="0" width="50" height="20" uuid="fd0b62cf-897b-49eb-b33d-1b0a69a7b03d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad a entregar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="0" width="50" height="20" uuid="0e147709-0772-4b93-bcde-6db63246059f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presentacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="0" width="57" height="20" uuid="88dfaa88-ea1d-44b5-8a09-b148f91d7ece"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo de lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="0" width="44" height="20" uuid="af8f4a29-e907-4daa-9891-97e445178ba6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="0" width="54" height="20" uuid="9a231ba4-a3af-4a62-9f7b-14d05031fe2a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total unidades por envase secundario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="0" width="44" height="20" uuid="345d90f1-4e94-4ed0-a5e6-6732d80f7423"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total cajas o pqt a entregar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="457" y="0" width="44" height="20" uuid="88b6e4e0-d751-40ae-a54f-7530ec108316"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de unidades a entregar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="501" y="0" width="54" height="20" uuid="d269f9f0-9c3e-4139-b1af-2c03e2fb3d4a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="168" height="20" uuid="39c4397f-23ae-4979-9c9b-73dadfeaf258"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto_descrip}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="218" y="0" width="50" height="20" uuid="419b0935-708b-4a86-87e2-e09a81ca3650"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{det_ven_pro_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="0" width="50" height="20" uuid="28b416f3-2f28-4f47-abc7-87ca00fbe91e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{present_peso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="0" width="44" height="20" uuid="1fe3ddf8-0820-467e-8a6f-b00e0e88a32e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MARCA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="0" width="57" height="20" uuid="109cf492-6cab-4dff-aa90-d0aa5451699d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{det_ven_pro_cod_lote}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="369" y="0" width="44" height="20" uuid="b51fc36d-d380-449f-8605-f44c693f75d7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{det_ven_pro_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="0" width="44" height="20" uuid="7383a3fe-5026-4c7f-ada5-dfda9897bd92"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{embalaje}+" CAJA/PQT X " +$F{producto_cantidad} +" UNID. C/U"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="457" y="0" width="44" height="20" uuid="ec7c4340-fad1-44d5-893d-353dd1199d7d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad}+" UNIDADES"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

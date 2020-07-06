@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex_subreport2" language="groovy" pageWidth="255" pageHeight="842" columnWidth="255" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8856669a-1e44-47ec-9bb1-441c144d76a1">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_producto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FECHA2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="almacen" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     det_comp."det_com_pro_cantidad" AS det_comp_det_com_pro_cantidad,
+     present."present_cantidad" AS present_present_cantidad,
+     produt."producto_id" AS produt_producto_id,
+     compr."compra_fecha_emis" AS compr_compra_fecha_emis,
+     ti_uni."unidad_cod" AS ti_uni_unidad_cod
+FROM
+     "producto_presentacion" present INNER JOIN "producto" produt ON present."present_cod_producto" = produt."producto_id"
+     INNER JOIN "detalle_compra_producto" det_comp ON present."present_id" = det_comp."det_com_pro_id_producto"
+     INNER JOIN "tipo_unidad" ti_uni ON present."present_cod_unidad" = ti_uni."unidad_id"
+     INNER JOIN "compra" compr ON det_comp."det_com_pro_id_compra" = compr."compra_id"
+WHERE
+     det_comp.det_com_pro_cod_lote = $P{id_producto} and compr.compra_almacen=$P{almacen} AND compr.compra_fecha_emis BETWEEN $P{FECHA1} AND $P{FECHA2}]]>
+	</queryString>
+	<field name="det_comp_det_com_pro_cantidad" class="java.math.BigDecimal"/>
+	<field name="present_present_cantidad" class="java.math.BigDecimal"/>
+	<field name="produt_producto_id" class="java.lang.Integer"/>
+	<field name="compr_compra_fecha_emis" class="java.lang.String"/>
+	<field name="ti_uni_unidad_cod" class="java.lang.String"/>
+	<group name="produt_producto_id">
+		<groupExpression><![CDATA[$F{produt_producto_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="255" height="20" uuid="a7201ea2-93ee-4457-8e9d-1122c8d9ff9e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[INGRESO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="0" width="48" height="27" uuid="0e9a41c3-3335-4a0a-88f6-ca39cc696cf0"/>
+				<text><![CDATA[PRESENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="0" width="72" height="27" uuid="e1d3b311-23a5-44a4-898f-67eed5227529"/>
+				<text><![CDATA[CANT INGR.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="0" width="67" height="28" uuid="685b0028-1ff1-447d-86a8-30e57244e51c"/>
+				<text><![CDATA[CAN. DE ING. TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="54" height="27" uuid="65658a80-fe70-4311-8f0a-e0caa4931a56"/>
+				<text><![CDATA[FECHA INGRESO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="###0.0000;-###0.0000">
+				<reportElement x="188" y="0" width="67" height="20" uuid="adb570ee-19a5-40a2-adff-83756bbf3ef4"/>
+				<textFieldExpression><![CDATA[$F{present_present_cantidad}*$F{det_comp_det_com_pro_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="0" width="53" height="20" uuid="dd00e4ae-0abd-4bb6-9b55-7c3ed3b28b55"/>
+				<textFieldExpression><![CDATA[$F{compr_compra_fecha_emis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000;-###0.0000">
+				<reportElement x="55" y="0" width="72" height="20" uuid="5cf3edfd-3057-4af3-aaf9-4d6a7039ef3a"/>
+				<textFieldExpression><![CDATA[$F{det_comp_det_com_pro_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="0" width="61" height="20" uuid="a5f1b184-2dc4-46c8-9853-7c2fe8ac2aab"/>
+				<textFieldExpression><![CDATA[$F{ti_uni_unidad_cod}+"("+$F{present_present_cantidad}.doubleValue()+")"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

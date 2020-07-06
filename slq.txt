@@ -1,0 +1,1138 @@
+
+  ALTER TABLE producto
+ADD CONSTRAINT FK_producto_clasifi
+FOREIGN KEY (producto_clasifi) REFERENCES clasificacion_producto (producto_id)
+
+ ALTER TABLE producto
+ADD CONSTRAINT FK_producto_moneda
+FOREIGN KEY (producto_moneda) REFERENCES tipo_moneda (moneda_id)
+ ALTER TABLE producto
+ADD CONSTRAINT FK_producto_familia
+FOREIGN KEY (producto_familia) REFERENCES familia (familia_id)
+
+ ALTER TABLE producto
+ADD CONSTRAINT FK_producto_medida
+FOREIGN KEY (producto_medida) REFERENCES tipo_unidad (unidad_id)
+
+
+ ALTER TABLE producto
+ADD CONSTRAINT FK_producto_tipo_afect
+FOREIGN KEY (producto_tipo_afect) REFERENCES tipo_afectacion (afectacion_id)
+
+SELECT * from Information_Schema.Tables where table_name='producto_presentacion'
+ALTER TABLE ADD FOREIGN KEY (dep) REFERENCES departamentos(dep)
+
+  SELECT * FROM
+INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'producto_presentacion'
+
+	ALTER TABLE producto_presentacion
+DROP  CONSTRAINT  UQ__producto__385C71B8A9272497      ;
+
+ALTER TABLE producto_presentacion
+ADD CONSTRAINT present_cod_producto UNIQUE (present_cod_producto);
+
+truncate table producto
+
+create table tipo_comprobante(
+comprobante_id int IDENTITY(1,1)  primary key not null,
+comprobante_cod varchar(45) not null,
+comprobante_descrip varchar(255) not null
+)
+
+ sp_rename 'almacen.alamcen_id', 'almacen_id', 'COLUMN';
+
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [moneda_id]
+      ,[moneda_cod]
+      ,[moneda_descrip]
+  FROM [sistema_cafe].[dbo].[tipo_moneda]
+
+  create table almacen(
+  alamcen_id int identity(1,1) primary key not null,
+  almacen_cod varchar(45) not null,
+  almacen_descrip varchar(45) not null
+  )
+  alter table compra ALTER COLUMN     compra_persona int not null   ;
+  sp_rename 'almacen.alamcen_id', 'almacen_id', 'COLUMN';
+
+  insert into almacen (almacen_cod,almacen_descrip)values('TAM','TAMBOPATA')
+  insert into almacen (almacen_cod,almacen_descrip)values('IBE','IBERIA')
+  insert into almacen (almacen_cod,almacen_descrip)values('PUERTO','PUERTO MALDONADO')
+
+  create table compra(
+  compra_id int primary key not null,
+  compra_comprobante int not null,
+  compra_serie varchar(15) not null,
+  compra_numero varchar(45) not null,
+  compra_moneda int not null,
+  compra_afectacion int not null,
+  compra_fecha_emis date,
+  compra_fecha_ingreso_alm date,
+  compra_fecha_vencimiento date,
+  compra_fecha_contable date,
+  compra_proveedor int not null,
+  compra_glosa text,
+  compra_almacen int
+  )
+  insert into compra(compra_id,compra_comprobante,compra_serie,compra_numero,compra_moneda,compra_afectacion,compra_fecha_emis,
+  compra_fecha_ingreso_alm ,  compra_fecha_vencimiento ,  compra_fecha_contable ,  compra_proveedor ,  compra_glosa ,  compra_almacen )values(1,1,'001','00001',1,1,'01-01-2018','01-01-2018','01-01-2018','01-01-2018',1,'luibre',1)
+
+  select * from compra;
+  truncate table compra
+
+   SELECT (CASE   WHEN (MAX(compra_id) > 0) THEN (MAX(compra_id) + 1)  ELSE 1    END) AS maximo FROM compra
+
+select * from tipo_afectacion 
+		    ORDER BY (CASE
+		   WHEN afectacion_id = 8 THEN 0
+	       WHEN afectacion_id = 2 THEN 1
+	       WHEN afectacion_id = 3 THEN 2
+	       WHEN afectacion_id = 4 THEN 3
+		   WHEN afectacion_id = 5 THEN 4
+		   WHEN afectacion_id = 6 THEN 5
+		   WHEN afectacion_id = 7 THEN 6
+		   WHEN afectacion_id = 1 THEN 7
+		   WHEN afectacion_id = 9 THEN 8
+		   WHEN afectacion_id = 10 THEN 9
+		   WHEN afectacion_id = 11 THEN 10
+           WHEN afectacion_id = 12 THEN 11
+		   WHEN afectacion_id = 13 THEN 12
+	       WHEN afectacion_id = 14 THEN 13
+		   WHEN afectacion_id = 15  THEN  14 END)
+
+
+
+
+
+
+
+
+select sum(detalle_compra_producto.det_com_pro_cantidad),detalle_compra_producto.det_com_pro_id_producto from detalle_compra_producto 
+group by detalle_compra_producto.det_com_pro_id_producto;
+
+
+
+
+
+SELECT producto.producto_id,(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))
+ FROM producto  
+
+(ISNULL(1,''))as sunat_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select sum((select sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2'
+group by dt_com.det_com_pro_id_producto)),getdate()
+
+select sum((select TOP 1 sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2' 
+group by dt_com.det_com_pro_id_producto))as ad
+
+select * from producto where producto_id='2'
+select * from producto_presentacion where present_cod_producto ='2'
+select * from detalle_venta_producto
+select * from detalle_compra_producto where det_com_pro_id_producto='10132'
+
+35*1
+46*6
+1*12
+
+
+42*1
+2*6
+
+select sum(detalle_venta_producto.det_ven_pro_cantidad),detalle_venta_producto.det_ven_pro_id_producto from detalle_venta_producto 
+group by detalle_venta_producto.det_ven_pro_id_producto
+
+
+
+
+where pre.present_cod_unidad='1'
+
+
+
+select * from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join tipo_unidad ti_un
+on ti_un.unidad_id=pro.producto_medida
+where pre.present_cod_unidad='1'
+
+group by producto.producto_cod
+
+select *  from producto_presentacion
+
+
+SELECT pre.present_cod_barra,
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pre.present_cod_producto
+group by pro.producto_id),0))
+FROM producto_presentacion pre 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+select top 1 present_cod_producto from producto_presentacion  where present_id='10'
+select * from detalle_venta_producto
+
+
+select produc.producto_id,present.present_cod_barra,det_com.det_com_pro_id,det_com.det_com_pro_fecha_venc,det_com_pro_cod_lote,((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_com.det_com_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_com.det_com_pro_cod_lote),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_ven.det_ven_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_ven.det_ven_pro_cod_lote),0)))as STOCK_LOTE from
+producto produc
+INNER JOIN producto_presentacion present
+on present.present_cod_producto =produc.producto_id
+inner join detalle_compra_producto det_com
+on det_com.det_com_pro_id_producto=present.present_id
+where produc.producto_id=(select top 1 present_cod_producto from producto_presentacion  where present_id='10')
+order by det_com.det_com_pro_id  desc
+
+
+
+
+
+ WHERE det_com_pro_id_producto ='" + id_producto + "'
+
+
+
+
+
+select sum(detalle_compra_producto.det_com_pro_cantidad),detalle_compra_producto.det_com_pro_cod_lote from detalle_compra_producto 
+group by detalle_compra_producto.det_com_pro_cod_lote;
+
+
+
+
+
+SELECT producto.producto_id,(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))
+ FROM producto
+
+
+ select 
+det_compra.det_com_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_compra.det_com_pro_cantidad,det_compra.det_com_pro_precio,det_compra.det_com_pro_sub_total,det_compra.det_com_pro_total,
+det_compra.det_com_pro_desc_ppr,det_compra.det_com_pro_des_Valor,det_compra.det_com_pro_fecha_venc,det_compra.det_com_pro_cod_lote,					
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from detalle_compra_producto det_compra
+inner join compra comp
+on comp.compra_id=det_compra.det_com_pro_id_compra
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_compra.det_com_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_compra.det_com_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_compra.det_com_pro_id_compra='3'
+order by det_compra.det_com_pro_id asc
+
+
+select present.present_id
+,present.present_cod_barra
+,present.present_descripcion
+,uni.unidad_cod
+,present.present_cantidad
+,present.present_prec_compra
+,present.present_cod_producto,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+where present.present_estado='true' and present.present_cod_barra like '1'
+order by present.present_cod_barra asc
+
+select pro_p.present_id
+,pro_p.present_cod_barra
+,pro_p.present_descripcion
+,uni.unidad_cod
+,pro_p.present_cantidad
+,pro_p.present_prec_compra
+,pro_p.present_cod_producto,				
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from  producto_presentacion pro_p
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pro_p.present_cod_unidad
+where pro_p.present_estado='true' and pro_p.present_cod_barra like '1'
+order by pro_p.present_cod_barra asc
+
+
+
+
+
+
+(ISNULL(1,''))as sunat_id
+
+select det_venta.det_ven_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_venta.det_ven_pro_cantidad,det_venta.det_ven_pro_precio,det_venta.det_ven_pro_sub_total,det_venta.det_ven_pro_total,
+det_venta.det_ven_pro_desc_por,det_venta.det_ven_pro_desc_valor,det_venta.det_ven_pro_fecha,det_venta.det_ven_pro_cod_lote,det_venta.det_ven_pro_id_compra,
+
+from detalle_venta_producto det_venta
+inner join venta vent
+on vent.venta_id=det_venta.det_ven_pro_id_venta
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_venta.det_ven_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_venta.det_ven_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_venta.det_ven_pro_id_venta='7'
+order by det_venta.det_ven_pro_id asc
+
+
+SELECT present.present_id,
+present.present_cod_barra,
+present.present_descripcion,
+uni.unidad_cod,
+present.present_cantidad,
+present.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+inner join producto pro
+on pro.producto_id=present.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where present.present_estado='true' and present.present_cod_barra like '561'
+
+SELECT pre.present_id,
+pre.present_cod_barra,
+pre.present_descripcion,
+uni.unidad_cod,
+pre.present_cantidad,
+pre.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor
+FROM producto_presentacion pre
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+inner join producto pro
+on pro.producto_id=pre.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where pre.present_estado='true' and pre.present_cod_barra like '561'
+
+select * from venta
+
+
+
+
+
+
+
+
+
+
+
+select sum((select sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2'
+group by dt_com.det_com_pro_id_producto)),getdate()
+
+select sum((select TOP 1 sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2' 
+group by dt_com.det_com_pro_id_producto))as ad
+
+select * from producto where producto_id='2'
+select * from producto_presentacion where present_cod_producto ='2'
+
+select * from detalle_compra_producto where det_com_pro_id_producto='10132'
+select * from detalle_venta_producto
+
+35*1
+46*6
+1*12
+
+
+42*1
+2*6
+
+select sum(detalle_venta_producto.det_ven_pro_cantidad),detalle_venta_producto.det_ven_pro_id_producto from detalle_venta_producto 
+group by detalle_venta_producto.det_ven_pro_id_producto
+
+
+
+
+where pre.present_cod_unidad='1'
+
+
+
+select * from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join tipo_unidad ti_un
+on ti_un.unidad_id=pro.producto_medida
+where pre.present_cod_unidad='1'
+
+group by producto.producto_cod
+
+select *  from producto_presentacion
+
+
+SELECT pre.present_cod_barra,
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pre.present_cod_producto
+group by pro.producto_id),0))
+FROM producto_presentacion pre 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+select top 1 present_cod_producto from producto_presentacion  where present_id='10'
+select * from detalle_venta_producto
+
+
+select produc.producto_id,present.present_cod_barra,det_com.det_com_pro_id,det_com.det_com_pro_fecha_venc,det_com_pro_cod_lote,((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_com.det_com_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_com.det_com_pro_cod_lote),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_ven.det_ven_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_ven.det_ven_pro_cod_lote),0)))as STOCK_LOTE from
+producto produc
+INNER JOIN producto_presentacion present
+on present.present_cod_producto =produc.producto_id
+inner join detalle_compra_producto det_com
+on det_com.det_com_pro_id_producto=present.present_id
+where produc.producto_id=(select top 1 present_cod_producto from producto_presentacion  where present_id='10')
+order by det_com.det_com_pro_id  desc
+
+
+
+
+
+ WHERE det_com_pro_id_producto ='" + id_producto + "'
+
+
+
+
+
+select sum(detalle_compra_producto.det_com_pro_cantidad),detalle_compra_producto.det_com_pro_cod_lote from detalle_compra_producto 
+group by detalle_compra_producto.det_com_pro_cod_lote;
+
+
+
+
+
+SELECT producto.producto_id,(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))
+ FROM producto
+
+
+ select 
+det_compra.det_com_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_compra.det_com_pro_cantidad,det_compra.det_com_pro_precio,det_compra.det_com_pro_sub_total,det_compra.det_com_pro_total,
+det_compra.det_com_pro_desc_ppr,det_compra.det_com_pro_des_Valor,det_compra.det_com_pro_fecha_venc,det_compra.det_com_pro_cod_lote,					
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from detalle_compra_producto det_compra
+inner join compra comp
+on comp.compra_id=det_compra.det_com_pro_id_compra
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_compra.det_com_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_compra.det_com_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_compra.det_com_pro_id_compra='3'
+order by det_compra.det_com_pro_id asc
+
+
+select present.present_id
+,present.present_cod_barra
+,present.present_descripcion
+,uni.unidad_cod
+,present.present_cantidad
+,present.present_prec_compra
+,present.present_cod_producto,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+where present.present_estado='true' and present.present_cod_barra like '1'
+order by present.present_cod_barra asc
+
+select pro_p.present_id
+,pro_p.present_cod_barra
+,pro_p.present_descripcion
+,uni.unidad_cod
+,pro_p.present_cantidad
+,pro_p.present_prec_compra
+,pro_p.present_cod_producto,				
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from  producto_presentacion pro_p
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pro_p.present_cod_unidad
+where pro_p.present_estado='true' and pro_p.present_cod_barra like '1'
+order by pro_p.present_cod_barra asc
+
+
+
+
+
+
+(ISNULL(1,''))as sunat_id
+
+select det_venta.det_ven_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_venta.det_ven_pro_cantidad,det_venta.det_ven_pro_precio,det_venta.det_ven_pro_sub_total,det_venta.det_ven_pro_total,
+det_venta.det_ven_pro_desc_por,det_venta.det_ven_pro_desc_valor,det_venta.det_ven_pro_fecha,det_venta.det_ven_pro_cod_lote,det_venta.det_ven_pro_id_compra,
+
+from detalle_venta_producto det_venta
+inner join venta vent
+on vent.venta_id=det_venta.det_ven_pro_id_venta
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_venta.det_ven_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_venta.det_ven_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_venta.det_ven_pro_id_venta='7'
+order by det_venta.det_ven_pro_id asc
+
+
+SELECT present.present_id,
+present.present_cod_barra,
+present.present_descripcion,
+uni.unidad_cod,
+present.present_cantidad,
+present.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+inner join producto pro
+on pro.producto_id=present.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where present.present_estado='true' and present.present_cod_barra like '561'
+
+SELECT pre.present_id,
+pre.present_cod_barra,
+pre.present_descripcion,
+uni.unidad_cod,
+pre.present_cantidad,
+pre.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor
+FROM producto_presentacion pre
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+inner join producto pro
+on pro.producto_id=pre.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where pre.present_estado='true' and pre.present_cod_barra like '561'
+
+select * from venta
+
+
+
+
+
+
+
+
+
+
+
+select sum((select sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2'
+group by dt_com.det_com_pro_id_producto)),getdate()
+
+select sum((select TOP 1 sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2' 
+group by dt_com.det_com_pro_id_producto))as ad
+
+select * from producto where producto_id='2'
+select * from producto_presentacion where present_cod_producto ='2'
+
+select * from detalle_compra_producto where det_com_pro_id_producto='10132'
+select * from detalle_venta_producto
+
+35*1
+46*6
+1*12
+
+
+42*1
+2*6
+
+select sum(detalle_venta_producto.det_ven_pro_cantidad),detalle_venta_producto.det_ven_pro_id_producto from detalle_venta_producto 
+group by detalle_venta_producto.det_ven_pro_id_producto
+
+
+
+
+where pre.present_cod_unidad='1'
+
+
+
+select * from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join tipo_unidad ti_un
+on ti_un.unidad_id=pro.producto_medida
+where pre.present_cod_unidad='1'
+
+group by producto.producto_cod
+
+select *  from producto_presentacion
+
+
+SELECT pre.present_cod_barra,
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pre.present_cod_producto
+group by pro.producto_id),0))
+FROM producto_presentacion pre 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+select top 1 present_cod_producto from producto_presentacion  where present_id='10'
+select * from detalle_venta_producto
+
+
+select produc.producto_id,present.present_cod_barra,det_com.det_com_pro_id,det_com.det_com_pro_fecha_venc,det_com_pro_cod_lote,((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_com.det_com_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_com.det_com_pro_cod_lote),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=produc.producto_id and dt_ven.det_ven_pro_cod_lote=det_com.det_com_pro_cod_lote
+group by dt_ven.det_ven_pro_cod_lote),0)))as STOCK_LOTE from
+producto produc
+INNER JOIN producto_presentacion present
+on present.present_cod_producto =produc.producto_id
+inner join detalle_compra_producto det_com
+on det_com.det_com_pro_id_producto=present.present_id
+where produc.producto_id=(select top 1 present_cod_producto from producto_presentacion  where present_id='10')
+order by det_com.det_com_pro_id  desc
+
+
+
+
+
+ WHERE det_com_pro_id_producto ='" + id_producto + "'
+
+
+
+
+
+select sum(detalle_compra_producto.det_com_pro_cantidad),detalle_compra_producto.det_com_pro_cod_lote from detalle_compra_producto 
+group by detalle_compra_producto.det_com_pro_cod_lote;
+
+
+
+
+
+SELECT producto.producto_id,(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0)),
+(ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=producto.producto_id
+group by pro.producto_id),0))
+ FROM producto
+
+
+ select 
+det_compra.det_com_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_compra.det_com_pro_cantidad,det_compra.det_com_pro_precio,det_compra.det_com_pro_sub_total,det_compra.det_com_pro_total,
+det_compra.det_com_pro_desc_ppr,det_compra.det_com_pro_des_Valor,det_compra.det_com_pro_fecha_venc,det_compra.det_com_pro_cod_lote,					
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from detalle_compra_producto det_compra
+inner join compra comp
+on comp.compra_id=det_compra.det_com_pro_id_compra
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_compra.det_com_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_compra.det_com_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_compra.det_com_pro_id_compra='3'
+order by det_compra.det_com_pro_id asc
+
+
+select present.present_id
+,present.present_cod_barra
+,present.present_descripcion
+,uni.unidad_cod
+,present.present_cantidad
+,present.present_prec_compra
+,present.present_cod_producto,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present 
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+where present.present_estado='true' and present.present_cod_barra like '1'
+order by present.present_cod_barra asc
+
+select pro_p.present_id
+,pro_p.present_cod_barra
+,pro_p.present_descripcion
+,uni.unidad_cod
+,pro_p.present_cantidad
+,pro_p.present_prec_compra
+,pro_p.present_cod_producto,				
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=pro_p.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+from  producto_presentacion pro_p
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pro_p.present_cod_unidad
+where pro_p.present_estado='true' and pro_p.present_cod_barra like '1'
+order by pro_p.present_cod_barra asc
+
+
+
+
+
+
+(ISNULL(1,''))as sunat_id
+
+select det_venta.det_ven_pro_id,
+pro_p.present_id,pro_p.present_cod_barra,pro_p.present_descripcion,ti_uni.unidad_cod,
+ti_af.afectacion_id,ti_af.afectacion_descr,ti_af.afectacion_valor,ti_af.afectacion_cod_valor,
+det_venta.det_ven_pro_cantidad,det_venta.det_ven_pro_precio,det_venta.det_ven_pro_sub_total,det_venta.det_ven_pro_total,
+det_venta.det_ven_pro_desc_por,det_venta.det_ven_pro_desc_valor,det_venta.det_ven_pro_fecha,det_venta.det_ven_pro_cod_lote,det_venta.det_ven_pro_id_compra,
+
+from detalle_venta_producto det_venta
+inner join venta vent
+on vent.venta_id=det_venta.det_ven_pro_id_venta
+inner join producto_presentacion pro_p
+on pro_p.present_id=det_venta.det_ven_pro_id_producto
+inner join tipo_afectacion ti_af
+on ti_af.afectacion_id=det_venta.det_ven_pro_id_igv
+inner join tipo_unidad ti_uni
+on ti_uni.unidad_id=pro_p.present_cod_unidad
+where det_venta.det_ven_pro_id_venta='7'
+order by det_venta.det_ven_pro_id asc
+
+
+SELECT present.present_id,
+present.present_cod_barra,
+present.present_descripcion,
+uni.unidad_cod,
+present.present_cantidad,
+present.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor,
+((ISNULL((select  sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0))-(ISNULL((select  sum(dt_ven.det_ven_pro_cantidad*pre.present_cantidad)from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_venta_producto dt_ven
+on dt_ven.det_ven_pro_id_producto=pre.present_id
+where pro.producto_id=present.present_cod_producto
+group by pro.producto_id),0)))AS TOTAL
+FROM producto_presentacion present
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=present.present_cod_unidad
+inner join producto pro
+on pro.producto_id=present.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where present.present_estado='true' and present.present_cod_barra like '561'
+
+SELECT pre.present_id,
+pre.present_cod_barra,
+pre.present_descripcion,
+uni.unidad_cod,
+pre.present_cantidad,
+pre.present_prec_venta,
+afec.afectacion_id,afec.afectacion_descr,afec.afectacion_valor,afec.afectacion_cod_valor
+FROM producto_presentacion pre
+INNER JOIN tipo_unidad uni
+on uni.unidad_id=pre.present_cod_unidad
+inner join producto pro
+on pro.producto_id=pre.present_cod_producto
+inner join tipo_afectacion afec
+on afec.afectacion_id=pro.producto_tipo_afect
+where pre.present_estado='true' and pre.present_cod_barra like '561'
+
+select * from venta
+
+
+
+
+
+
+
+
+
+
+
+select sum((select sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2'
+group by dt_com.det_com_pro_id_producto)),getdate()
+
+select sum((select TOP 1 sum(dt_com.det_com_pro_cantidad*pre.present_cantidad) from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join detalle_compra_producto dt_com
+on dt_com.det_com_pro_id_producto=pre.present_id
+where pro.producto_id='2' 
+group by dt_com.det_com_pro_id_producto))as ad
+
+select * from producto where producto_id='2'
+select * from producto_presentacion where present_cod_producto ='2'
+
+select * from detalle_compra_producto where det_com_pro_id_producto='10132'
+select * from detalle_venta_producto
+
+35*1
+46*6
+1*12
+
+
+42*1
+2*6
+
+select sum(detalle_venta_producto.det_ven_pro_cantidad),detalle_venta_producto.det_ven_pro_id_producto from detalle_venta_producto 
+group by detalle_venta_producto.det_ven_pro_id_producto
+
+
+
+
+where pre.present_cod_unidad='1'
+
+
+
+select * from producto pro
+inner join  producto_presentacion pre
+on pre.present_cod_producto=pro.producto_id
+inner join tipo_unidad ti_un
+on ti_un.unidad_id=pro.producto_medida
+where pre.present_cod_unidad='1'
+
+group by producto.producto_cod
+
+select *  from producto_presentacion
+
+
+  insert into [catalogo] (id,imagen)
+select '4', *
+from OpenRowset(Bulk 'F:\Desktop\ssss.jpg', Single_Blob) As EmpleadosFoto
+
+
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT ven.venta_id,per.persona_dni,per.persona_razon_social ,per.persona_direccion,
+ins.institucion_nivel,ins.institucion_ruta,ins.institucion_usuario,ins.institucion_distrito,ins.institucion_iten,ins.institucion_centro_poblado,ins.institucion_direccion,ins.institucion_orden,
+con.coductor_nombre ,con.coductor_lincencia,
+carr.carro_placa,carr.carro_nombre,
+gui.guia_peso_bruto
+from venta ven
+inner join persona per
+on per.persona_id=ven.venta_cliente
+inner join guia_remision gui
+on gui.guia_venta =ven.venta_id
+inner join conductor con
+on con.coductor_dni_ruc=gui.guia_conductor
+inner join carro carr
+on carr.carro_placa=gui.guia_placa
+inner join institucion ins
+on ins.institucion_codigo_modular=per.persona_institucion
+

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jaspersoft_Cardex_Guia_subreport1" language="groovy" pageWidth="396" pageHeight="802" columnWidth="396" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1489b3a6-839c-4f17-98c0-f234db8dfef7">
+	<property name="ireport.zoom" value="5.559917313492239"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo_modular" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="entrega" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT [padron_nro]
+      ,[padron_codigo_anexo]
+      ,[padron_unidad_territorial]
+      ,[padron_departamento]
+      ,[padron_provincia]
+      ,[padron_distrito]
+      ,[padron_centro_poblado]
+      ,[padron_codigo_modular]
+      ,[padron_nombre_colegio]
+      ,[padron_nivel_educativo]
+      ,[padron_campaña]
+      ,[padron_conformacion]
+      ,[padron_dni]
+      ,[padron_apellidos_nombres]
+      ,[padron_rol]
+      ,[padron_cargo]
+      ,[padron_correo]
+      ,[padron_celular]
+      ,[padron_telefono]
+      ,[padron_sexo]
+      ,[padron_zona]
+      ,[padron_indigena]
+      ,[padron_frontera]
+      ,[padron_lengua_materna]
+      ,[padron_discapacidad]
+      ,[padron_estado]
+	  ,entrega
+  FROM [sistema_cafe].[dbo].[padron] WHERE  cast(padron_codigo_modular as varchar(max)) = $P{codigo_modular} and entrega =$P{entrega}]]>
+	</queryString>
+	<field name="padron_nro" class="java.lang.Integer"/>
+	<field name="padron_codigo_anexo" class="java.lang.String"/>
+	<field name="padron_unidad_territorial" class="java.lang.String"/>
+	<field name="padron_departamento" class="java.lang.String"/>
+	<field name="padron_provincia" class="java.lang.String"/>
+	<field name="padron_distrito" class="java.lang.String"/>
+	<field name="padron_centro_poblado" class="java.lang.String"/>
+	<field name="padron_codigo_modular" class="java.lang.String"/>
+	<field name="padron_nombre_colegio" class="java.lang.String"/>
+	<field name="padron_nivel_educativo" class="java.lang.String"/>
+	<field name="padron_campaña" class="java.lang.String"/>
+	<field name="padron_conformacion" class="java.lang.String"/>
+	<field name="padron_dni" class="java.lang.String"/>
+	<field name="padron_apellidos_nombres" class="java.lang.String"/>
+	<field name="padron_rol" class="java.lang.String"/>
+	<field name="padron_cargo" class="java.lang.String"/>
+	<field name="padron_correo" class="java.lang.String"/>
+	<field name="padron_celular" class="java.lang.String"/>
+	<field name="padron_telefono" class="java.lang.String"/>
+	<field name="padron_sexo" class="java.lang.String"/>
+	<field name="padron_zona" class="java.lang.String"/>
+	<field name="padron_indigena" class="java.lang.String"/>
+	<field name="padron_frontera" class="java.lang.String"/>
+	<field name="padron_lengua_materna" class="java.lang.String"/>
+	<field name="padron_discapacidad" class="java.lang.String"/>
+	<field name="padron_estado" class="java.lang.String"/>
+	<field name="entrega" class="java.lang.Integer"/>
+	<group name="padron_codigo_modular">
+		<groupExpression><![CDATA[$F{padron_codigo_modular}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="13" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="74" height="13" uuid="42b9302c-d0d9-4a20-9f73-34b84198878f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="40" height="13" uuid="fb3f4d47-1e1d-46e2-b1d2-9c4fd70232ce"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="0" width="140" height="13" uuid="2f0d542c-431b-4de8-ac70-4c63ccafba3c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ APELLIDOS Y NOMBRES ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="0" width="54" height="13" uuid="6cd16bf4-739f-4a29-b0fa-fc0b1c41ed20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CELULAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="0" width="66" height="13" uuid="e2f89974-e628-4cc1-8028-e5d7adfdb121"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONO FIJO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="74" height="13" uuid="03fe399c-7a7b-414c-bf81-11572f5db484"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padron_rol}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="40" height="13" uuid="e1b5a654-19c0-4ae0-853a-f66c6d71faff"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padron_dni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="0" width="140" height="13" uuid="1933465d-71be-4155-a2cd-5fb916aba841"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padron_apellidos_nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="254" y="0" width="54" height="13" uuid="23528211-3500-4c3d-9b5b-886ef91dfc1e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padron_celular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="0" width="66" height="13" uuid="582cddf8-54fb-42ac-8af6-d2d6f78b843a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padron_telefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="374" height="10" uuid="e32c0975-4f1d-4db8-9817-968faa172b0c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frecuencia: Por distribucion (mensual)]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

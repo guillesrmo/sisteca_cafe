@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puerba" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="451204c6-04f9-4d1b-8d23-8b0021b5f9e0">
+	<property name="ireport.zoom" value="2.5937424601000023"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="399"/>
+	<queryString>
+		<![CDATA[select * from institucion]]>
+	</queryString>
+	<field name="institucion_icodcolegio" class="java.lang.Integer"/>
+	<field name="institucion_unidad_teritorial" class="java.lang.String"/>
+	<field name="institucion_departamento" class="java.lang.String"/>
+	<field name="institucion_provincia" class="java.lang.String"/>
+	<field name="institucion_distrito" class="java.lang.String"/>
+	<field name="institucion_ubigeo" class="java.lang.String"/>
+	<field name="institucion_centro_poblado" class="java.lang.String"/>
+	<field name="institucion_codigo_modular" class="java.lang.String"/>
+	<field name="institucion_codigo_local" class="java.lang.String"/>
+	<field name="institucion_anexo" class="java.lang.String"/>
+	<field name="institucion_nombre" class="java.lang.String"/>
+	<field name="institucion_direccion" class="java.lang.String"/>
+	<field name="institucion_nivel" class="java.lang.String"/>
+	<field name="institucion_usuario" class="java.lang.String"/>
+	<field name="institucion_comite" class="java.lang.String"/>
+	<field name="institucion_iten" class="java.lang.String"/>
+	<field name="institucion_modalidad" class="java.lang.String"/>
+	<field name="institucion_racion" class="java.lang.String"/>
+	<field name="institucion_tipo_servicio" class="java.lang.String"/>
+	<field name="institucion_region_alimentaria" class="java.lang.String"/>
+	<field name="institucion_comunidad_indi" class="java.lang.String"/>
+	<field name="institucion_quintil" class="java.lang.String"/>
+	<field name="institucion_area" class="java.lang.String"/>
+	<field name="institucion_programacion" class="java.lang.String"/>
+	<field name="institucion_ruta" class="java.lang.Integer"/>
+	<field name="institucion_orden" class="java.lang.Integer"/>
+	<field name="institucion_persona" class="java.lang.Integer"/>
+	<field name="institucion_estado" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="64" y="1" width="100" height="20" uuid="0421cbc3-ea17-46d4-aeac-cd619f1c5e6d"/>
+				<text><![CDATA[institucion_icodcolegio]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<frame>
+				<reportElement positionType="Float" x="111" y="0" width="356" height="31" uuid="b0249989-81a8-480a-8c3f-4afa334bc171"/>
+				<staticText>
+					<reportElement positionType="Float" x="13" y="4" width="69" height="25" isPrintWhenDetailOverflows="true" uuid="63594029-6e8c-473c-8c2f-f96a12209531"/>
+					<textElement>
+						<font isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Hola a todos!
+Tengo el siguiente problema con jasperreports:
+Estoy generando un informe en el que no puedo ampliar el tamaño de las
+cajas de texto y cuando el texto es más largo que la anchura de la
+caja, este se corta en el filo de la caja.
+Si tengo una caja con anchura de 200px y el texto es de 300px, cuando
+llega a los 200px se corta.
+Mi pregunta es ¿se puede hacer de alguna forma que el tamaño del texto
+se haga más pequeño para que quepa en la caja si el texto es más
+largo?
+¿Hay otra solución posible para este problema?
+El tamaño de las cajas de texto no lo puedo cambiar porque el formato
+del informe tiene que ser siempre el mismo, tienen que tener la
+anchura y altura fijas.Lo que tengo que cambiar es el contenido.
+Muchas gracias!]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="83" y="4" width="273" height="25" isPrintWhenDetailOverflows="true" uuid="0d60aac6-5f05-4ae0-ae36-63e8dd7d5c38"/>
+					<textFieldExpression><![CDATA["Hola a todosTengo el siguiente problema con jasperreportsEstoy generando un informe en el que no puedo ampliar el tamaño de lascajas de texto y cuando el texto es más largo que la anchura de lacaja, este se corta en el filo de la caja.Si tengo una caja con anchura de 200px y el texto es de 300px, cuandos"]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement positionType="Float" mode="Transparent" x="11" y="2" width="343" height="27" isPrintWhenDetailOverflows="true" uuid="eba9ad2b-015a-4dbf-99c8-70883e335c4f">
+						<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]]></printWhenExpression>
+					</reportElement>
+				</rectangle>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="59" y="31" width="408" height="27" uuid="0fd310fc-6c19-4e7c-87b0-91731f657ab3"/>
+				<rectangle>
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="37" y="1" width="369" height="26" isPrintWhenDetailOverflows="true" backcolor="#CCFFFF" uuid="e276ad61-6394-41c5-b744-affcd797102e">
+						<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 != 0)]]></printWhenExpression>
+					</reportElement>
+				</rectangle>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="210" y="5" width="185" height="22" isPrintWhenDetailOverflows="true" uuid="35ca15da-30f0-418d-80b1-4980e5b91d8f"/>
+					<textFieldExpression><![CDATA["Hola a todosTengo el siguiente problema con jasperreportsEstoy generando un informe en el que no puedo ampliar el tamaño de lascajas de texto y cuando el texto es más largo que la anchura de lacaja, este se corta en el filo de la caja.Si tengo una caja con anchura de 200px y el texto es de 300px, cuandos"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="66" y="7" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="3d6480dd-acbd-468f-868b-d255c0d9a579"/>
+					<textElement>
+						<font isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Hola a todos!
+Tengo el siguiente problema con jasperreports:
+Estoy generando un informe en el que no puedo ampliar el tamaño de las
+cajas de texto y cuando el texto es más largo que la anchura de la
+caja, este se corta en el filo de la caja.
+Si tengo una caja con anchura de 200px y el texto es de 300px, cuando
+llega a los 200px se corta.
+Mi pregunta es ¿se puede hacer de alguna forma que el tamaño del texto
+se haga más pequeño para que quepa en la caja si el texto es más
+largo?
+¿Hay otra solución posible para este problema?
+El tamaño de las cajas de texto no lo puedo cambiar porque el formato
+del informe tiene que ser siempre el mismo, tienen que tener la
+anchura y altura fijas.Lo que tengo que cambiar es el contenido.
+Muchas gracias!]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="64" y="84" width="100" height="20" uuid="db294182-d415-41f0-822d-2040c9d24ad0"/>
+				<textFieldExpression><![CDATA[$F{institucion_icodcolegio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
