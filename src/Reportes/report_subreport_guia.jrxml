@@ -27,7 +27,8 @@
 		inner join producto_presentacion per
 		on per.present_id=det.det_com_pro_id_producto
 		where det.det_com_pro_cod_lote=$P{lote} and per.present_cod_producto=$P{producto_id} and  com.compra_fecha_ingreso_alm  BETWEEN $P{fecha1} and $P{fecha2} and det.det_com_pro_fecha_venc=$P{fecha_vencimiento}
-group by gui.guia_decr]]>
+group by gui.guia_decr
+ORDER BY max(cast(com.compra_id as varchar(max)))]]>
 	</queryString>
 	<field name="guia_decr" class="java.lang.String"/>
 	<background>
@@ -53,7 +54,7 @@ group by gui.guia_decr]]>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{guia_decr}]]></textFieldExpression>
